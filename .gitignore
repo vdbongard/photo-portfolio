@@ -2,7 +2,6 @@ node_modules/
 settings.json
 
 .DS_Store
-/.meteor
 *~
 /dev_bundle
 /dev_bundle*.tar.gz
