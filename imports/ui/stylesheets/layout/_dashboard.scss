@@ -1,0 +1,15 @@
+#dashboard-layout {
+  display: flex;
+  flex-direction: row;
+
+  .content {
+    padding: 1rem;
+    flex: 1;
+    width: 0;
+
+    @include med-and-up {
+      padding: 2rem;
+      margin-left: $sidebar-width;
+    }
+  }
+}

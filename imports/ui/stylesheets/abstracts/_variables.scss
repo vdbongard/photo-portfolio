@@ -1,0 +1,30 @@
+$primary-color: color("red", "base");
+
+$bg-color: color("grey", "lighten-5");
+$bg-header: white;
+$bg-sidebar: white;
+
+$text-color: color("shades", "text");
+$text-color-secondary: color("shades", "secondary-text");
+
+$header-height: 4rem;
+$sidebar-width: 12rem;
+
+$max-width: 60rem;
+
+$padding-content: 2rem;
+$padding-content-mobile: 0.5rem;
+
+$border-radius: 2px;
+
+$album-gutter: 0.2rem;
+
+$transition: 0.2s ease-out;
+
+$z-index: (
+        lightbox  : 1010,
+        header    : 1000,
+        sidebar   : 999,
+        overlay   : 990,
+        fab       : 980
+);

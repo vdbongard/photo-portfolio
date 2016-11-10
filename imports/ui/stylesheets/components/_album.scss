@@ -1,0 +1,85 @@
+.album {
+  margin-bottom: 2rem;
+  position: relative;
+
+  .album__title {
+    display: inline-block;
+    span {
+      color: $text-color-secondary;
+      font-size: 1rem;
+      margin-left: 0.2rem;
+    }
+  }
+  .album__pictures {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: -1rem;
+  }
+
+  .album__picture {
+    width: 50vw;
+    height: 33.3333vw;
+    position: relative;
+    overflow: hidden;
+    border-radius: $border-radius;
+    padding: 0.2rem;
+
+    @include med-and-up {
+      width: 20rem;
+      height: 13.3333rem;
+      margin: $album-gutter;
+    }
+
+    img {
+      border-radius: $border-radius;
+    }
+
+    .delete {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 1rem;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.5);
+      color: $text-color;
+    }
+
+    &:hover .delete {
+      display: block;
+    }
+
+    .progressbar {
+      position: absolute;
+      width: 100%;
+      margin: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    //@extend .z-depth-1;
+  }
+
+  .album__picture__inner {
+    overflow: hidden;
+    border-radius: 2px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.hover {
+    background: rgba(255, 0, 0, 0.08);
+  }
+  .album__dropzone {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+  }
+}

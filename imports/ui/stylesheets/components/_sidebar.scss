@@ -1,0 +1,78 @@
+.sidebar, .mobile-nav {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  width: $sidebar-width;
+  height: calc(100% - #{$header-height});
+  color: $text-color;
+  z-index: map-get($z-index, sidebar);
+  overflow-x: auto;
+  padding-bottom: 2.8rem;
+  background: $bg-color;
+
+  a, .sidebar__logout {
+    padding: 0.8rem 1.2rem;
+    transition: $transition;
+    border-left: 4px solid $bg-sidebar;
+
+    i.fa {
+      position: absolute;
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+      opacity: 0.8;
+    }
+
+    span {
+      padding-left: 2.2rem;
+      line-height: 1.5rem;
+    }
+
+    &:hover, &.active {
+      //background: rgba(0, 0, 0, 0.05);
+      border-left: 4px solid $primary-color;
+
+      i.fa {
+        opacity: 1;
+      }
+    }
+  }
+
+  .sidebar__heading {
+    margin: 2rem 1.5rem 0.5rem; //up - left/right - bottom
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .sidebar__icon {
+    color: $primary-color;
+    font-size: 1.2rem;
+    float: right;
+    line-height: 15px;
+    cursor: pointer;
+  }
+
+  .sidebar__logout {
+    position: fixed;
+    bottom: 0;
+    text-align: left;
+    background: #fafafa;
+    outline: none;
+    border: none;
+    border-left: 4px solid $bg-sidebar;
+    font-weight: 300;
+    color: $text-color;
+    width: $sidebar-width;
+  }
+}
+
+.mobile-nav-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: map-get($z-index, overlay);
+}

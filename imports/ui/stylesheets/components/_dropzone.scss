@@ -1,0 +1,47 @@
+.dropzone {
+
+  .dropzone__input {
+    border: 4px dashed $primary-color;
+    color: $primary-color;
+    position: relative;
+    margin: 2rem 0;
+  }
+
+  .dropzone__upload {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .dropzone__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 2rem;
+    text-align: center;
+
+    transition: .2s ease-out;
+
+    &.dragover {
+      background: lighten($primary-color, 20%);
+    }
+
+  }
+  i {
+    font-size: 6rem;
+  }
+
+  p {
+    font-size: 2rem;
+    color: $primary-color;
+    margin: 1rem;
+  }
+}

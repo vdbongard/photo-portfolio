@@ -1,0 +1,229 @@
+.content {
+  padding: 0 $padding-content-mobile;
+
+  @include med-and-up {
+    padding: 0 $padding-content;
+  }
+}
+
+.btn, .btn-large {
+  border: none;
+  border-radius: 2px;
+  display: inline-block;
+  width: 100%;
+  height: 2.25rem;
+  line-height: 2.25rem;
+  outline: 0;
+  margin: 1.25rem 0 1.25rem 0;
+  padding: 0 2rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+
+  text-decoration: none;
+  color: #fff;
+  background-color: $primary-color;
+  text-align: center;
+  letter-spacing: .5px;
+  transition: .2s ease-out;
+  cursor: pointer;
+
+  @extend .z-depth-1;
+
+  &:hover {
+    background-color: lighten($primary-color, 5%);
+
+    @extend .z-depth-1-half;
+  }
+}
+
+.btn-large {
+  height: 3.375rem;
+  line-height: 3.375rem;
+}
+
+.btn-fab {
+  background: $primary-color;
+  color: white;
+  border-radius: 50%;
+  height: 3.5rem;
+  width: 3.5rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 3.5rem;
+  text-align: center;
+  transition: box-shadow $transition;
+  z-index: map-get($z-index, fab);
+
+  @extend .z-depth-1;
+
+  &:hover {
+    @extend .z-depth-1-half
+  }
+}
+
+.card {
+  margin: 1rem;
+  width: 24rem;
+  max-width: 100%;
+  background: white;
+  padding: 1rem;
+  border-radius: $border-radius;
+
+  @extend .z-depth-1;
+
+  @include med-and-up {
+    padding: 2rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+  }
+}
+
+.paper {
+  margin: 0 auto 1rem;
+  max-width: 62rem;
+  min-height: 30rem;
+  background: white;
+  padding: 2rem;
+  border-radius: $border-radius;
+
+  @extend .z-depth-1;
+
+  @include med-and-up {
+    min-height: 70rem;
+    padding: 4rem;
+  }
+}
+
+.top-bg {
+  background: $primary-color;
+  height: 12rem;
+  margin-bottom: -8rem;
+
+  @include med-and-up {
+    height: 16rem;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+
+  input {
+    display: none;
+  }
+
+  input:checked + .slider {
+    background-color: $primary-color;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px $primary-color;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(16px);
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: $transition;
+    border-radius: 34px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: $transition;
+    border-radius: 50%;
+  }
+}
+
+.flex {
+  display: flex;
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.between {
+    justify-content: space-between;
+  }
+
+  &.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.column {
+    flex-direction: column;
+  }
+
+  &.jc-sa {
+    justify-content: space-around;
+  }
+}
+
+.tal {
+  text-align: left !important;
+}
+
+.hcenter {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.pa {
+  position: absolute !important;
+}
+
+.w100p {
+  width: 100% !important;
+}
+
+.h100p {
+  height: 100% !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.noscroll {
+  overflow-y: hidden !important;
+
+  &-small {
+    @include small {
+      overflow-y: hidden !important;
+    }
+  }
+}
+
+.clearfix::after {
+  clear: both;
+  content: '';
+  display: table;
+}

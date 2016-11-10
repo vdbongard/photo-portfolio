@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+// 1. Vendors
+@import
+  'vendor/normalize',
+  'vendor/material-design',
+  'vendor/material-design-colors.scss',
+  'vendor/media-query';
+
+// 2. Configuration and helpers
+@import
+  'abstracts/variables',
+  'abstracts/functions',
+  'abstracts/mixins';
+
+// 3. Base stuff
+@import
+  'base/base',
+  'base/fonts',
+  'base/typography',
+  'base/helpers';
+
+// 4. Layout-related sections
+@import
+  'layout/header',
+  'layout/footer',
+  'layout/dashboard';
+
+// 5. Components
+@import
+  'components/navigation',
+  'components/sidebar',
+  'components/dropzone',
+  'components/album',
+  'components/settings',
+  'components/progressbar',
+  'components/lightbox';
+
+// 6. Page-specific styles
+@import
+  'pages/users',
+  'pages/notfound';
+
+// 7. Themes
+@import
+  'themes/default';

@@ -1,0 +1,40 @@
+.users {
+  .table-wrapper {
+    background: white;
+    text-align: left;
+
+    max-width: 60rem;
+    margin: 0 auto;
+    overflow: auto;
+
+    @extend .z-depth-1;
+  }
+
+  table {
+    width:100%;
+  }
+
+  thead {
+    border-bottom: 1px solid color("shades", "dividers");
+  }
+
+  td, th {
+    padding: 1rem 1.5rem;
+    white-space: nowrap;
+    font-size: 1rem;
+    font-weight: 400;
+
+    @include med-and-up {
+      padding: 1rem 3rem;
+    }
+  }
+
+  .user span, .user i.action{
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .user i.action {
+     font-size: 1.2rem;
+   }
+}
