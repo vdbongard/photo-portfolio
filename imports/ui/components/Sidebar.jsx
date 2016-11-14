@@ -1,9 +1,8 @@
-import React from 'react';
-import {browserHistory, Link} from 'react-router';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import {Roles} from 'meteor/alanning:roles';
-
-import Albums from '../../api/albums';
+import React from "react";
+import {browserHistory, Link} from "react-router";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import {Roles} from "meteor/alanning:roles";
+import Albums from "../../api/albums";
 
 export default class MainLayout extends TrackerReact(React.Component) {
 
@@ -18,6 +17,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
 
         this.getAlbums = this.getAlbums.bind(this);
         this.onClick_logout = this.onClick_logout.bind(this);
+        this.onClick_addAlbum = this.onClick_addAlbum.bind(this);
     }
 
     componentWillUnmount() {
@@ -28,22 +28,13 @@ export default class MainLayout extends TrackerReact(React.Component) {
         return Albums.find({}).fetch();
     }
 
-    onClick_logout(event) {
-        event.preventDefault();
-        Meteor.logout(() => {
-            browserHistory.push("/");
-        });
-    }
+    getLinks() {
+        const links = [{
+            to: "/photos",
+            i: "fa-picture-o",
+            name: "Photos"
+        }];
 
-    render() {
-        const albums = this.getAlbums();
-
-        let links = [
-            {
-                to: "/photos",
-                i: "fa-picture-o",
-                name: "Photos"
-            }];
         if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
             links.push(
                 {
@@ -62,21 +53,42 @@ export default class MainLayout extends TrackerReact(React.Component) {
                     name: "Settings"
                 });
         }
+        return links;
+    }
+
+    onClick_logout(event) {
+        event.preventDefault();
+        Meteor.logout(() => {
+            browserHistory.push("/");
+        });
+    }
+
+    onClick_addAlbum() {
+        console.log("add Album");
+    }
+
+    render() {
+        const links = this.getLinks().map((link, index) => {
+            return (
+                <Link to={link.to} activeClassName="active" key={index}><i
+                    className={"fa " + link.i}/><span>{link.name}</span></Link>
+            );
+        });
+
+        const albums = this.getAlbums().map((album) => {
+            return (
+                <Link to={"/album/" + album._id} activeClassName="active" key={album._id}>{album.name}</Link>
+            )
+        });
+
         return (
             <nav className="sidebar hide-on-small-only" ref="sidebar">
                 <h4 className="sidebar__heading">Navigation</h4>
-                {links.map((link, index)=>{
-                    return (
-                        <Link to={link.to} activeClassName="active" key={index}><i className={"fa "+link.i}/><span>{link.name}</span></Link>
-                    );
-                })}
+                {links}
 
-                <h4 className="sidebar__heading">Albums<i className="fa fa-plus-square-o sidebar__icon"/></h4>
-                {albums.map((album) => {
-                    return (
-                        <Link to={"/album/" + album._id} activeClassName="active" key={album._id}>{album.name}</Link>
-                    )
-                })}
+                <h4 className="sidebar__heading">Albums<i className="fa fa-plus sidebar__icon"
+                                                          onClick={this.onClick_addAlbum}/></h4>
+                {albums}
 
                 <button className="sidebar__logout" onClick={this.onClick_logout}>Logout</button>
 

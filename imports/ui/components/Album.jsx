@@ -1,9 +1,7 @@
-import React from 'react';
-import {Link} from 'react-router';
-
-import ProgressBar from '../components/ProgressBar';
-
-import Images from '../../api/images';
+import React from "react";
+import {Link} from "react-router";
+import ProgressBar from "../components/ProgressBar";
+import Images from "../../api/images";
 
 export default class Album extends React.Component {
 
@@ -115,6 +113,15 @@ export default class Album extends React.Component {
     render() {
         let images = this.state.images;
 
+        let lightbox__inner = {};
+        let imgUrl = images[this.state.index].versions.preview.meta.pipeFrom;
+        if (this.state.loading || 1) {
+            lightbox__inner = {
+                background: 'url(' + imgUrl + ') 50% no-repeat',
+                backgroundSize: 'contain'
+            };
+        }
+
         return (
             <div className={this.state.hover ? "album hover" : "album"} onDragOver={this.onDragOver}>
                 <Link to={"/album/" + this.props.albumId}><h2 className="album__title">{this.props.title}
@@ -131,7 +138,7 @@ export default class Album extends React.Component {
                             awsProgress[2] = awsUpload.versions.original && awsUpload.versions.original.meta && awsUpload.versions.original.meta.progress && awsUpload.versions.original.meta.progress || 0;
                         }
 
-                        let total = awsProgress[0].total + awsProgress[1].total + awsProgress[2].total
+                        let total = awsProgress[0].total + awsProgress[1].total + awsProgress[2].total;
                         let progress = Math.round(((awsProgress[0].written + awsProgress[1].written + awsProgress[2].written) / total) * 100);
 
                         if (awsProgress[0].percent + awsProgress[1].percent + awsProgress[2].percent < 300) {
@@ -143,8 +150,7 @@ export default class Album extends React.Component {
                                 <div className="album__picture__inner">
                                     {image.versions.original.meta ?
                                         <img src={image.versions.preview.meta.pipeFrom} alt=""
-                                             onClick={()=>this.openImage(index)}
-                                             className={3 * image.meta.height > 2 * image.meta.width ? "w100p" : "h100p"}/> : "uploading..."}
+                                             onClick={() => this.openImage(index)}/> : "uploading..."}
 
                                     {!this.props.disableRemove &&
                                     <i className="fa fa-times delete" onClick={() => this.removeImage(image._id)}></i>}
@@ -157,9 +163,7 @@ export default class Album extends React.Component {
 
                     {this.state.isOpen &&
                     <div className="lightbox" onClick={this.closeImage}>
-                        <div className="inner">
-                            {this.state.loading && <img src={images[this.state.index].versions.preview.meta.pipeFrom}
-                                                        className={3 * images[this.state.index].meta.height > 2 * images[this.state.index].meta.width ? "h100p" : "w100p"}/>}
+                        <div className="lightbox__inner" style={lightbox__inner}>
                             {this.state.error && "Error loading image"}
                             <img
                                 src={images[this.state.index].versions.big ? images[this.state.index].versions.big.meta.pipeFrom : images[this.state.index].versions.original.meta.pipeFrom}

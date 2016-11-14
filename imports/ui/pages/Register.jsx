@@ -1,9 +1,8 @@
-import React from 'react';
-import {Accounts} from 'meteor/accounts-base';
-import {browserHistory} from 'react-router';
-import {validateEmail} from '../../startup/helper';
-import {Roles} from 'meteor/alanning:roles';
-
+import React from "react";
+import {Accounts} from "meteor/accounts-base";
+import {browserHistory} from "react-router";
+import {validateEmail} from "../../startup/helper";
+import {Roles} from "meteor/alanning:roles";
 
 export default class Register extends React.Component {
 
