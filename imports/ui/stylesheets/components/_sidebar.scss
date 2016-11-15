@@ -64,6 +64,17 @@
     color: $text-color;
     width: $sidebar-width;
   }
+
+  .sidebar__albumInputWrapper {
+    padding: 0.8rem 1.2rem;
+    border-left: 4px solid transparent;
+
+    input {
+      height: inherit;
+      margin: 0;
+      font-weight: 300;
+    }
+  }
 }
 
 .mobile-nav-overlay {

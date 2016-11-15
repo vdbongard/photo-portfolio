@@ -38,7 +38,7 @@ export default class Photos extends TrackerReact(React.Component) {
     }
 
     getAlbums() {
-        return Albums.find({});
+        return Albums.find({}).fetch().reverse();
     }
 
     render() {

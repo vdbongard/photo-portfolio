@@ -33,7 +33,7 @@ export default class Album extends React.Component {
 
     removeImage(id) {
         if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
-            Meteor.call('images.remove', {_id: id}, (error)=> {
+            Meteor.call('images.remove', {_id: id}, (error) => {
                 error && console.log(error);
             });
         }
@@ -113,10 +113,10 @@ export default class Album extends React.Component {
     render() {
         let images = this.state.images;
 
-        let lightbox__inner = {};
-        let imgUrl = images[this.state.index].versions.preview.meta.pipeFrom;
-        if (this.state.loading || 1) {
-            lightbox__inner = {
+        let lightbox__innerStyle = {};
+        let imgUrl = images[this.state.index] && images[this.state.index].versions.preview && images[this.state.index].versions.preview.meta.pipeFrom;
+        if (this.state.loading) {
+            lightbox__innerStyle = {
                 background: 'url(' + imgUrl + ') 50% no-repeat',
                 backgroundSize: 'contain'
             };
@@ -147,7 +147,7 @@ export default class Album extends React.Component {
 
                         return (
                             <div className="album__picture" key={image._id}>
-                                <div className="album__picture__inner">
+                                <div className="album__picture__inner flex center">
                                     {image.versions.original.meta ?
                                         <img src={image.versions.preview.meta.pipeFrom} alt=""
                                              onClick={() => this.openImage(index)}/> : "uploading..."}
@@ -163,7 +163,7 @@ export default class Album extends React.Component {
 
                     {this.state.isOpen &&
                     <div className="lightbox" onClick={this.closeImage}>
-                        <div className="lightbox__inner" style={lightbox__inner}>
+                        <div className="lightbox__inner" style={lightbox__innerStyle}>
                             {this.state.error && "Error loading image"}
                             <img
                                 src={images[this.state.index].versions.big ? images[this.state.index].versions.big.meta.pipeFrom : images[this.state.index].versions.original.meta.pipeFrom}
