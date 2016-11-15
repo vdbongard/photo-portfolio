@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import {Accounts} from 'meteor/accounts-base';
-import {Session} from 'meteor/session';
-import {browserHistory, Link} from 'react-router';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
+import React, {Component} from "react";
+import {Accounts} from "meteor/accounts-base";
+import {Session} from "meteor/session";
+import {browserHistory, Link} from "react-router";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
 
 export default class Verification extends TrackerReact(Component) {
 
@@ -30,14 +30,12 @@ export default class Verification extends TrackerReact(Component) {
                     <h1 className="card-title tal">{Session.get('verification') || "Please click on a verification link!"}</h1>
                     <p>Redirection in 10 seconds or click <Link to="/photos">here</Link></p>
                 </div>
-
-
             </div>
         );
     }
 }
 
-var doneCallback;
+let doneCallback;
 
 Accounts.onEmailVerificationLink((token, done) => {
     browserHistory.push("/verification");

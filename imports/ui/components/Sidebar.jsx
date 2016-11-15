@@ -46,11 +46,6 @@ export default class MainLayout extends TrackerReact(React.Component) {
         if (Roles.userIsInRole(Meteor.userId(), 'admin')) {
             links.push(
                 {
-                    to: "/upload",
-                    i: "fa-cloud-upload",
-                    name: "Upload"
-                },
-                {
                     to: "/users",
                     i: "fa-users",
                     name: "Users"
@@ -86,8 +81,10 @@ export default class MainLayout extends TrackerReact(React.Component) {
         event.preventDefault();
         const albumName = this.state.albumInput;
         if (albumName !== '') {
-            Meteor.call('album.create', albumName, error => {
-                error ? console.log(error) : console.log("Album successfully created!");
+            Meteor.call('album.create', albumName, (error, id) => {
+                browserHistory.push("/album/" + id);
+                error && console.log(error);
+                console.log("Album successfully created!");
             });
             this.toggleAlbumInput();
         }
@@ -99,10 +96,11 @@ export default class MainLayout extends TrackerReact(React.Component) {
 
     render() {
         let albumInput = this.state.showAlbumInput &&
-            <form onSubmit={this.onSubmit_addAlbum} className="sidebar__albumInputWrapper"><input type="text"
-                                                                                                  ref={element => element && element.focus()}
-                                                                                                  onChange={this.onChange_albumInput}/>
+            <form onSubmit={this.onSubmit_addAlbum} className="sidebar__albumInputWrapper">
+                <input type="text" ref={element => element && element.focus()} onChange={this.onChange_albumInput}/>
             </form>;
+
+        if (!this.state.subscription.albums.ready()) return null;
 
         return (
             <nav className="sidebar hide-on-small-only" ref="sidebar">

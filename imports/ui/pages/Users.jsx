@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
-import User from '../components/User';
+import React, {Component} from "react";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import User from "../components/User";
 
 export default class Users extends TrackerReact(Component) {
 
@@ -27,7 +26,7 @@ export default class Users extends TrackerReact(Component) {
     }
 
     render() {
-        if(!this.state.subscription.users.ready()) return <div className="users"></div>;
+        if (!this.state.subscription.users.ready()) return null;
         return (
             <div className="users">
                 <h1>Users</h1>
@@ -42,8 +41,7 @@ export default class Users extends TrackerReact(Component) {
                         </tr>
                         </thead>
                         <tbody>
-                        {/*{this.renderUsers()}*/}
-                        {Meteor.users.find({}).fetch().map((user) => {return <User user={user} key={user._id}/>})}
+                        {this.renderUsers()}
                         </tbody>
                     </table>
                 </div>

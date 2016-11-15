@@ -1,10 +1,8 @@
-import React from 'react';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
-import Album from '../components/Album';
-
-import Images from '../../api/images';
-import Albums from '../../api/albums';
+import React from "react";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import Album from "../components/Album";
+import Images from "../../api/images";
+import Albums from "../../api/albums";
 
 export default class AlbumPage extends TrackerReact(React.Component) {
 
@@ -86,14 +84,14 @@ export default class AlbumPage extends TrackerReact(React.Component) {
     }
 
     render() {
-        if (!this.state.subscription.albumWithImages.ready()) return <div className="albumPage"></div>;
+        if (!this.state.subscription.albumWithImages.ready()) return null;
 
         const album = this.getAlbum();
         const images = this.getImages();
         return (
             <div className="albumPage">
                 <Album title={album && album.name} images={images} removeImage={this.removeImage}
-                       albumId={this.props.params.albumId}/>
+                       albumId={this.props.params.albumId} showSettings/>
                 <label htmlFor="uploadToAlbum" className="btn-fab">+
                     <input multiple type="file" id="uploadToAlbum" className="hidden" onChange={this.onChange}/>
                 </label>

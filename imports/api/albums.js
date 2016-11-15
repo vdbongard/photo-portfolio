@@ -10,10 +10,25 @@ Meteor.methods({
     'album.create'(name) {
         check(name, String);
         if (Roles.userIsInRole(this.userId, 'admin')) {
-            Albums.insert({
+            return albumId = Albums.insert({
                 name: name
+            }, (error) => {
+                error && console.log(error);
             });
         } else throw new Meteor.Error(403, "Not authorized to create album");
+    },
+    'album.remove'(albumId) {
+        check(albumId, String);
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            Albums.remove({
+                _id: albumId
+            }, (error) => {
+                error && console.log(error);
+            });
+            Meteor.call('images.removeAlbum', albumId, (error) => {
+                error && console.log(error);
+            });
+        } else throw new Meteor.Error(403, "Not authorized to remove album");
     }
 });
 

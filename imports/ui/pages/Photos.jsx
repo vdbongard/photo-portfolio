@@ -51,12 +51,11 @@ export default class Photos extends TrackerReact(React.Component) {
             )
         });
 
-        const imagesWithNoAlbum = this.getAlbumImages(null).length > 0 &&
-            <Album title="Others" images={this.getAlbumImages(null)} removeImage={this.removeImage}/>;
+        const imagesWithNoAlbum = this.getAlbumImages("").length > 0 &&
+            <Album title="Others" images={this.getAlbumImages("")} removeImage={this.removeImage}/>;
 
         // wait for subscriptions
-        if (!this.state.subscription.images.ready() || !this.state.subscription.albums.ready())
-            return <div className="photos-page"></div>;
+        if (!this.state.subscription.images.ready() || !this.state.subscription.albums.ready()) return null;
 
         return (
             <div className="photos-page">

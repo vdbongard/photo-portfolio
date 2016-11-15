@@ -1,10 +1,9 @@
-import React from 'react';
-import {browserHistory, Link} from 'react-router';
-import Navigation from '../components/Navigation';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import {Roles} from 'meteor/alanning:roles';
-
-import Albums from '../../api/albums';
+import React from "react";
+import {browserHistory, Link} from "react-router";
+import Navigation from "../components/Navigation";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import {Roles} from "meteor/alanning:roles";
+import Albums from "../../api/albums";
 
 export default class HeaderLayout extends TrackerReact(React.Component) {
 
@@ -18,8 +17,8 @@ export default class HeaderLayout extends TrackerReact(React.Component) {
         };
 
         this.onClick_toggle = this.onClick_toggle.bind(this);
-        this.onClick_close = this.onClick_close.bind(this)
-        this.onClick_logout = this.onClick_logout.bind(this)
+        this.onClick_close = this.onClick_close.bind(this);
+        this.onClick_logout = this.onClick_logout.bind(this);
         this.getAlbums = this.getAlbums.bind(this);
     }
 
@@ -60,7 +59,7 @@ export default class HeaderLayout extends TrackerReact(React.Component) {
                 <header className="header">
 
                     <div className="header__left">
-                        <i className="header__toggle fa fa-bars hide-on-med-and-up " onClick={this.onClick_toggle}></i>
+                        <i className="header__toggle fa fa-bars hide-on-med-and-up " onClick={this.onClick_toggle}/>
                         <Link to="/" onClick={this.onClick_close}><img src="/logo.svg" className="header__logo"
                                                                        alt="Logo"/></Link>
                         <Link to="/" onClick={this.onClick_close}><h1 className="header__name">vdbongard.com</h1></Link>
@@ -84,8 +83,6 @@ export default class HeaderLayout extends TrackerReact(React.Component) {
 
                         {userId && Roles.userIsInRole(userId, 'admin') &&
                         <span className="flex column">
-                            <Link to="/upload" activeClassName="active" onClick={this.onClick_toggle}><i
-                                className="fa fa-cloud-upload"/><span>Upload</span></Link>
                             <Link to="/users" activeClassName="active" onClick={this.onClick_toggle}><i
                                 className="fa fa-users"/><span>Users</span></Link>
                             <Link to="/settings" activeClassName="active" onClick={this.onClick_toggle}><i

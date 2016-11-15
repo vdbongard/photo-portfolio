@@ -1,8 +1,7 @@
-import {Meteor} from 'meteor/meteor';
-import {Roles} from 'meteor/alanning:roles';
-import { FilesCollection } from 'meteor/ostrio:files';
-
-import createThumbnails from '../startup/createThumbnails.js';
+import {Meteor} from "meteor/meteor";
+import {Roles} from "meteor/alanning:roles";
+import {FilesCollection} from "meteor/ostrio:files";
+import createThumbnails from "../startup/createThumbnails.js";
 
 let knox, bound, client, Request, cfdomain = {};
 
@@ -11,9 +10,9 @@ if (Meteor.isServer) {
     // Read: https://github.com/chilts/awssum/issues/164
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
 
-    knox    = Npm.require('knox');
+    knox = Npm.require('knox');
     Request = Npm.require('request');
-    bound = Meteor.bindEnvironment(function(callback) {
+    bound = Meteor.bindEnvironment(function (callback) {
         return callback();
     });
     cfdomain = 'https://dm26im48b5fvp.cloudfront.net'; // <-- Change to your Cloud Front Domain
@@ -40,20 +39,20 @@ const Images = new FilesCollection({
         // and has role is `admin`
         return Roles.userIsInRole(this.userId, 'admin');
     },
-    onAfterUpload: function(fileRef) {
+    onAfterUpload: function (fileRef) {
         // In onAfterUpload callback we will move file to AWS:S3
         let self = this;
-        createThumbnails(Images, fileRef, ()=> {
+        createThumbnails(Images, fileRef, () => {
             // get new updated file reference
-            fileRef = Images.findOne({_id:fileRef._id});
-            _.each(fileRef.versions, function(vRef, version) {
+            fileRef = Images.findOne({_id: fileRef._id});
+            _.each(fileRef.versions, function (vRef, version) {
                 // We use Random.id() instead of real file's _id
                 // to secure files from reverse engineering
                 // As after viewing this code it will be easy
                 // to get access to unlisted and protected files
                 let filePath = "images/" + version + "/" + (Random.id()) + "-" + version + "." + fileRef.extension;
-                let upload = client.putFile(vRef.path, filePath, function(error, res) {
-                    bound(function() {
+                let upload = client.putFile(vRef.path, filePath, function (error, res) {
+                    bound(function () {
                         let upd;
                         if (error) {
                             console.error(error);
@@ -67,7 +66,7 @@ const Images = new FilesCollection({
                             // upd['$unset']["versions." + version + ".meta.progress"] = 1;
                             self.collection.update({
                                 _id: fileRef._id
-                            }, upd, function(error) {
+                            }, upd, function (error) {
                                 if (error) {
                                     console.error(error);
                                 } else {
@@ -80,15 +79,15 @@ const Images = new FilesCollection({
                         }
                     });
                 });
-                upload.on('progress', function(progress) {
-                    bound(function() {
+                upload.on('progress', function (progress) {
+                    bound(function () {
                         upd = {
                             $set: {}
                         };
                         upd['$set']["versions." + version + ".meta.progress"] = progress;
                         self.collection.update({
                             _id: fileRef._id
-                        }, upd, function(error) {
+                        }, upd, function (error) {
                             if (error) {
                                 console.error(error);
                             }
@@ -98,7 +97,7 @@ const Images = new FilesCollection({
             });
         });
     },
-    interceptDownload: function(http, fileRef, version) {
+    interceptDownload: function (http, fileRef, version) {
         let path, ref, ref1, ref2;
         path = (ref = fileRef.versions) != null ? (ref1 = ref[version]) != null ? (ref2 = ref1.meta) != null ? ref2.pipeFrom : void 0 : void 0 : void 0;
         if (path) {
@@ -145,20 +144,36 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
-    'images.remove'(search) {
-        if(Roles.userIsInRole(this.userId, 'admin')) {
-            Images.remove(search);
+    'images.remove'(id) {
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            if (Meteor.isServer) {
+                Images.remove({_id: id}, (error) => {
+                    error && console.log(error);
+                });
+                return true;
+            }
+        } else throw new Meteor.Error(403, "Not authorized to remove images");
+    },
+    'images.removeAlbum'(albumId) {
+        check(albumId, String);
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            Images.update({
+                'meta.album': albumId
+            }, {
+                $set: {
+                    'meta.album': ''
+                }
+            }, (error) => {
+                error && console.log(error);
+            });
             return true;
-        }
-        throw new Meteor.Error(403, "Not authorized to remove images");
+        } else throw new Meteor.Error(403, "Not authorized to remove album from image");
     }
 });
 
 if (Meteor.isServer) {
-    Images.denyClient();
-
-    Meteor.publish('images', function(){
-        if(Roles.userIsInRole(this.userId, ['admin', 'normal'])) {
+    Meteor.publish('images', function () {
+        if (Roles.userIsInRole(this.userId, ['admin', 'normal'])) {
             return Images.find().cursor;
         }
     });

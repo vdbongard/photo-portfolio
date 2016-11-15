@@ -1,7 +1,7 @@
 .album {
   margin-bottom: 2rem;
   position: relative;
-  overflow: hidden;
+  //overflow: hidden;
 
   .album__title {
     display: inline-block;
@@ -11,6 +11,57 @@
       margin-left: 0.2rem;
     }
   }
+
+  .album__settingsButton {
+    @extend .btn;
+
+    width: inherit;
+    background: transparent;
+    box-shadow: none;
+    color: $text-color;
+    margin: 0;
+    padding: 0 0.5rem;
+
+    &:hover {
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+
+  .album__settings {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+    width: 16rem;
+    height: auto;
+    background: white;
+    border-radius: $border-radius;
+    padding: 1rem 0;
+    z-index: map-get($z-index, dropdown);
+
+    @extend .z-depth-1;
+
+  }
+
+  .album__setting {
+    cursor: pointer;
+    padding: 0 1.5rem;
+    overflow: hidden;
+    color: $text-color;
+    font-size: 0.875rem;
+    font-weight: 400;
+    height: 2.5rem;
+    line-height: 2.5rem;
+
+    &:hover {
+      background: $hover-color;
+    }
+
+    &:focus {
+      background: $focus-color;
+    }
+  }
+
   .album__pictures {
     display: flex;
     align-items: center;
@@ -39,10 +90,17 @@
 
     }
 
+    &__inner {
+      overflow: hidden;
+      border-radius: 2px;
+      height: 100%;
+    }
+
     img {
       border-radius: $border-radius;
       max-width: 100%;
       max-height: 100%;
+      cursor: pointer;
     }
 
     .delete {
@@ -71,15 +129,6 @@
     //@extend .z-depth-1;
   }
 
-  .album__picture__inner {
-    overflow: hidden;
-    border-radius: 2px;
-    height: 100%;
-  }
-
-  &.hover {
-    background: rgba(255, 0, 0, 0.08);
-  }
   .album__dropzone {
     position: absolute;
     width: 100%;
@@ -88,5 +137,9 @@
     bottom: 0;
     right: 0;
     opacity: 0;
+  }
+
+  &.hover {
+    background: rgba(255, 0, 0, 0.08);
   }
 }

@@ -49,8 +49,8 @@
   height: 3.5rem;
   width: 3.5rem;
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 1rem;
+  right: 1rem;
   cursor: pointer;
   font-size: 1.75rem;
   font-weight: 300;
@@ -63,6 +63,11 @@
 
   &:hover {
     @extend .z-depth-1-half
+  }
+
+  @include med-and-up {
+    bottom: 2rem;
+    right: 2rem;
   }
 }
 
@@ -184,6 +189,18 @@
 
   &.jc-sa {
     justify-content: space-around;
+  }
+
+  &.jc-sb {
+    justify-content: space-between;
+  }
+
+  &.ai-c {
+    align-items: center;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
   }
 }
 

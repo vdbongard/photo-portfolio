@@ -1,7 +1,6 @@
-import React from 'react';
-import Switch from '../components/Switch';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
+import React from "react";
+import Switch from "../components/Switch";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
 import AppSettings from "/imports/api/settings";
 
 export default class Settings extends TrackerReact(React.Component) {
@@ -28,6 +27,9 @@ export default class Settings extends TrackerReact(React.Component) {
 
     render() {
         let allowRegistration = AppSettings.findOne({}) && AppSettings.findOne({}).allowRegistration;
+
+        if (!this.state.subscription.settings.ready()) return null;
+
         return (
             <div className="settings card">
                 <h2 className="card-title">Settings</h2>
