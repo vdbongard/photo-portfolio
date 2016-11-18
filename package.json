@@ -17,5 +17,8 @@
     "react-mounter": "^1.2.0",
     "react-router": "^2.2.2",
     "request": "^2.75.0"
+  },
+  "devDependencies": {
+    "riek": "^1.0.7"
   }
 }

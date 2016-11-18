@@ -47,7 +47,7 @@ export default class Photos extends TrackerReact(React.Component) {
         const albums = this.getAlbums().map((album) => {
             return (
                 <Album title={album.name} images={this.getAlbumImages(album._id)} removeImage={this.removeImage}
-                       key={album._id} albumId={album._id} disableRemove={disableRemove}/>
+                       key={album._id} albumId={album._id} disableRemove={disableRemove} albumTitleAsLink/>
             )
         });
 

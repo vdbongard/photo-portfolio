@@ -1,6 +1,7 @@
 import React from "react";
 import {browserHistory, Link} from "react-router";
 import ProgressBar from "../components/ProgressBar";
+import {RIEInput} from "riek";
 import Images from "../../api/images";
 
 export default class Album extends React.Component {
@@ -15,7 +16,8 @@ export default class Album extends React.Component {
             error: false,
             hover: false,
             index: 0,
-            showSettings: false
+            showSettings: false,
+            albumTitle: this.props.title || ""
         };
 
         this.removeImage = this.removeImage.bind(this);
@@ -31,6 +33,7 @@ export default class Album extends React.Component {
         this.showSettings = this.showSettings.bind(this);
         this.removeAlbum = this.removeAlbum.bind(this);
         this.clickHandler = this.clickHandler.bind(this);
+        this.onChange_albumTitle = this.onChange_albumTitle.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -198,6 +201,20 @@ export default class Album extends React.Component {
         }
     }
 
+    onChange_albumTitle(data) {
+        console.log(data);
+        if (this.props.albumId) {
+            Meteor.call('album.rename', this.props.albumId, data.text, error => {
+                error ? console.log(error) : console.log("Album successfully renamed!");
+            });
+        }
+        return true;
+    }
+
+    validate_albumTitle(text) {
+        return (text.length > 0 && text.length < 33);
+    }
+
     render() {
         let images = this.state.images;
 
@@ -213,11 +230,28 @@ export default class Album extends React.Component {
                 <div className="album__setting" onClick={this.removeAlbum}>Remove Album</div>
             </div>;
 
+        const album__title = this.props.albumTitleAsLink ?
+            <Link to={"/album/" + this.props.albumId}>
+                <h2 className="album__title">{this.props.title}
+                    <span className="album__count">({images.length} photos)</span>
+                </h2>
+            </Link> :
+            <h2>
+                <RIEInput
+                    value={this.props.title}
+                    change={this.onChange_albumTitle}
+                    validate={this.validate_albumTitle}
+                    className="album__title"
+                    propName="text"
+                    classEditing="editing"
+                    classLoading="loading"/>
+                <span className="album__count">({images.length} photos)</span>
+            </h2>;
+
         return (
             <div className={this.state.hover ? "album hover" : "album"} onDragOver={this.onDragOver}>
                 <div className="album__bar flex jc-sb ai-c">
-                    <Link to={"/album/" + this.props.albumId}><h2 className="album__title">{this.props.title}
-                        <span>({images.length} photos)</span></h2></Link>
+                    {album__title}
                     {album__settingsButton}
                     {album__settings}
                 </div>

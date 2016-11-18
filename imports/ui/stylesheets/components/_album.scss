@@ -4,12 +4,30 @@
   //overflow: hidden;
 
   .album__title {
-    display: inline-block;
-    span {
-      color: $text-color-secondary;
-      font-size: 1rem;
-      margin-left: 0.2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    border-bottom: 1px solid transparent;
+
+    &.editing {
+      cursor: inherit;
+      width: inherit;
+      height: inherit;
+      margin: 0;
     }
+
+    &.loading {
+      background: lightgrey;
+    }
+  }
+
+  span.album__title {
+    display: inline-block;
+  }
+
+  .album__count {
+    color: $text-color-secondary;
+    font-size: 1rem;
+    margin-left: 0.2rem;
   }
 
   .album__settingsButton {

@@ -29,6 +29,19 @@ Meteor.methods({
                 error && console.log(error);
             });
         } else throw new Meteor.Error(403, "Not authorized to remove album");
+    },
+    'album.rename'(albumId, name) {
+        check(albumId, String);
+        check(name, String);
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            Albums.update({
+                _id: albumId
+            }, {
+                name: name
+            }, (error) => {
+                error && console.log(error);
+            });
+        } else throw new Meteor.Error(403, "Not authorized to rename album");
     }
 });
 
