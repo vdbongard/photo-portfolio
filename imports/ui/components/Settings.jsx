@@ -1,5 +1,5 @@
 import React from "react";
-import Switch from "../components/Switch";
+import Toggle from "./Toggle";
 import TrackerReact from "meteor/ultimatejs:tracker-react";
 import AppSettings from "/imports/api/settings";
 
@@ -33,7 +33,9 @@ export default class Settings extends TrackerReact(React.Component) {
         return (
             <div className="settings card">
                 <h2 className="card-title">Settings</h2>
-                <div className="setting flex between">Allow Registrations? <Switch onChange={this.allowRegistration} checked={allowRegistration}/> </div>
+                <div className="setting flex between">
+                    Allow Registrations? <Toggle onChange={this.allowRegistration} checked={allowRegistration}/>
+                </div>
             </div>
         );
     }

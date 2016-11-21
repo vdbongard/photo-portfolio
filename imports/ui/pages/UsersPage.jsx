@@ -9,7 +9,7 @@ export default class Users extends TrackerReact(Component) {
 
         this.state = {
             subscription: {
-                users: Meteor.subscribe('allUsers'),
+                users: Meteor.subscribe('allUsers')
             }
         };
     }

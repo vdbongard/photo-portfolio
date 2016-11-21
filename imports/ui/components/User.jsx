@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-import moment from 'moment';
+import React from "react";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import moment from "moment";
 
-export default class User extends TrackerReact(Component) {
+export default class User extends TrackerReact(React.Component) {
 
     constructor(props) {
         super(props);
@@ -28,7 +28,7 @@ export default class User extends TrackerReact(Component) {
                 <td>{this.props.user.emails[0].address} {this.props.user.emails[0].verified && <i className="fa fa-check"/>}</td>
                 <td><span onClick={this.toggleAdmin}>{this.props.user.roles && this.props.user.roles[0]}</span></td>
                 <td>{moment(this.props.user.createdAt).format('D. MMMM YYYY')}</td>
-                <td><i className="fa fa-trash action" onClick={this.removeUser}></i></td>
+                <td><i className="fa fa-trash action" onClick={this.removeUser}/></td>
             </tr>
         );
     }

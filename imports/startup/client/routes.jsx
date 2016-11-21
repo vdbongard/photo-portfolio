@@ -3,24 +3,21 @@ import {Router, Route, browserHistory, IndexRoute} from "react-router";
 import {Roles} from "meteor/alanning:roles";
 import HeaderLayout from "../../ui/layouts/HeaderLayout";
 import DashboardLayout from "../../ui/layouts/DashboardLayout";
-import Home from "../../ui/pages/Home";
-import Photos from "../../ui/pages/Photos";
-import Users from "../../ui/pages/Users";
+import Home from "../../ui/pages/HomePage";
+import Photos from "../../ui/pages/PhotosPage";
+import Users from "../../ui/pages/UsersPage";
 import Settings from "../../ui/pages/SettingsPage";
 import AlbumPage from "../../ui/pages/AlbumPage";
-import NotFound from "../../ui/pages/NotFound";
-import Login from "../../ui/pages/Login";
-import Register from "../../ui/pages/Register";
-import Password from "../../ui/pages/Password";
-import Verification from "../../ui/pages/Verification.jsx";
-import Reset from "../../ui/pages/ResetPassword";
+import NotFound from "../../ui/pages/NotFoundPage";
+import Login from "../../ui/pages/LoginPage";
+import Register from "../../ui/pages/RegisterPage";
+import Password from "../../ui/pages/PasswordPage";
+import Verification from "../../ui/pages/VerificationPage.jsx";
+import Reset from "../../ui/pages/ResetPasswordPage";
+import AdminAuthentication from "../../ui/components/AdminAuthentication";
 
 function requireAuth(nextState, replace) {
     if (!Meteor.userId()) forwardNotAuthorized(nextState, replace);
-}
-
-function requireAdmin(nextState, replace) {
-    if(!Roles.userIsInRole(Meteor.userId(), 'admin')) forwardNotAuthorized(nextState, replace);
 }
 
 function forwardNotAuthorized(nextState, replace) {
@@ -43,11 +40,12 @@ export const routes = () => (
 
             <Route component={DashboardLayout} onEnter={requireAuth}>
                 <Route path="photos" component={Photos}/>
-                <Route path="users" component={Users} onEnter={requireAdmin}/>
-                <Route path="settings" component={Settings} onEnter={requireAdmin}/>
+                <Route component={AdminAuthentication}>
+                    <Route path="users" component={Users}/>
+                    <Route path="settings" component={Settings}/>
+                </Route>
                 <Route path="album/:albumId" component={AlbumPage}/>
             </Route>
-
             <Route path="*" component={NotFound}/>
         </Route>
     </Router>
