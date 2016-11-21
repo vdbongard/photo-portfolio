@@ -1,7 +1,6 @@
-import React from 'react';
-import {Accounts} from 'meteor/accounts-base';
-import {browserHistory} from 'react-router';
-import {validateEmail} from '../../startup/helper';
+import React from "react";
+import {Accounts} from "meteor/accounts-base";
+import {validateEmail} from "../../startup/helper";
 
 export default class Password extends React.Component {
 
@@ -17,10 +16,14 @@ export default class Password extends React.Component {
         if (email === '') console.log("Email must not be empty!");
         else if (!validateEmail(email)) console.log("This is not a valid email address!");
         else {
+            this.refs.submitButton.disabled = true;
             Accounts.forgotPassword({
                 email
             }, (error) => {
-                if (error) console.log(error);
+                if (error) {
+                    console.log(error);
+                    this.refs.submitButton.disabled = false;
+                }
                 else console.log("Reset password email has been sent!");
             });
         }
@@ -34,7 +37,7 @@ export default class Password extends React.Component {
                     <h1 className="card-title">Forgot Password?</h1>
                     <form id="forgotPasswordForm" onSubmit={this.onSubmit_forgotPasswordForm}>
                         <input type="email" ref="forgotPasswordEmail" className="input" placeholder="Email" required/>
-                        <input type="submit" value="Send Password" className="btn-large"/>
+                        <input type="submit" ref="submitButton" value="Send Password" className="btn-large"/>
                     </form>
                 </div>
 

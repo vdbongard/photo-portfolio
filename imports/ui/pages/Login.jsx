@@ -1,6 +1,6 @@
-import React from 'react';
-import {Link, browserHistory} from 'react-router';
-import {Meteor} from 'meteor/meteor';
+import React from "react";
+import {Link, browserHistory} from "react-router";
+import {Meteor} from "meteor/meteor";
 
 export default class Login extends React.Component {
 
@@ -15,8 +15,12 @@ export default class Login extends React.Component {
         const email = this.refs.loginEmail.value.trim();
         const password = this.refs.loginPassword.value;
         if (email !== '' && password !== '') {
+            this.refs.submitButton.disabled = true;
             Meteor.loginWithPassword(email, password, function (error) {
-                if (error) console.log(error);
+                if (error) {
+                    console.log(error);
+                    this.refs.submitButton.disabled = false;
+                }
                 else {
                     if (Meteor.userId()) {
                         browserHistory.push("/photos");
@@ -34,7 +38,7 @@ export default class Login extends React.Component {
                     <form id="loginForm" onSubmit={this.onSubmit_loginForm}>
                         <input type="email" ref="loginEmail" className="input" placeholder="Email" required/>
                         <input type="password" ref="loginPassword" className="input" placeholder="Password" required/>
-                        <input type="submit" value="Login" className="btn-large"/>
+                        <input type="submit" ref="submitButton" value="Login" className="btn-large"/>
                         <div className="flex jc-sa">
                             <Link to="/register">Register</Link>
                             <Link to="/password">Forgot password?</Link>

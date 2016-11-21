@@ -14,6 +14,7 @@ export default class Register extends React.Component {
 
     onSubmit_registerForm(event) {
         event.preventDefault();
+
         const email = this.refs.registerEmail.value.trim();
         const password = this.refs.registerPassword.value;
         const confirmPassword = this.refs.confirmPassword.value;
@@ -22,11 +23,15 @@ export default class Register extends React.Component {
         else if (password !== confirmPassword) console.log("Passwords don't match!");
         else if (!validateEmail(email)) console.log("This is not a valid email address!");
         else {
+            this.refs.submitButton.disabled = true;
             Accounts.createUser({
                 email,
                 password
             }, (error) => {
-                if (error) console.log(error);
+                if (error) {
+                    console.log(error);
+                    this.refs.submitButton.disabled = false;
+                }
                 else if (Meteor.userId()) {
                     Meteor.call('createUserNormal', Meteor.userId());
                     browserHistory.push("/photos");
@@ -45,7 +50,7 @@ export default class Register extends React.Component {
                         <input type="password" ref="registerPassword" className="input" placeholder="Password" required/>
                         <input type="password" ref="confirmPassword" className="input" placeholder="Confirm Password"
                                required/>
-                        <input type="submit" value="Register" className="btn-large"/>
+                        <input type="submit" ref="submitButton" value="Register" className="btn-large"/>
                     </form>
                 </div>
 

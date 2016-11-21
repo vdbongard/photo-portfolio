@@ -31,7 +31,8 @@ export default class MainLayout extends TrackerReact(React.Component) {
     renderAlbumLinks() {
         return Albums.find({}).fetch().reverse().map((album) => {
             return (
-                <Link to={"/album/" + album._id} activeClassName="active" key={album._id}>{album.name}</Link>
+                <Link to={"/album/" + album._id} activeClassName="active" onClick={this.props.onClick}
+                      key={album._id}>{album.name}</Link>
             )
         });
     }
@@ -59,7 +60,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
 
         return links.map((link, index) => {
             return (
-                <Link to={link.to} activeClassName="active" key={index}><i
+                <Link to={link.to} activeClassName="active" onClick={this.props.onClick} key={index}><i
                     className={"fa " + link.i}/><span>{link.name}</span></Link>
             );
         });
@@ -103,7 +104,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
         if (!this.state.subscription.albums.ready()) return null;
 
         return (
-            <nav className="sidebar hide-on-small-only" ref="sidebar">
+            <nav className={"sidebar animate" + (this.props.className ? this.props.className : "" )} ref="sidebar">
                 <h4 className="sidebar__heading">Navigation</h4>
                 {this.renderLinks()}
 
@@ -115,7 +116,6 @@ export default class MainLayout extends TrackerReact(React.Component) {
                 {this.renderAlbumLinks()}
 
                 <button className="sidebar__logout" onClick={this.onClick_logout}>Logout</button>
-
             </nav>
         );
     }

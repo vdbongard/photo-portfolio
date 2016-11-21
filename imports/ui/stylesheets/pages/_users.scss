@@ -2,10 +2,7 @@
   .table-wrapper {
     background: white;
     text-align: left;
-
-    max-width: 60rem;
-    margin: 0 auto;
-    overflow: auto;
+    overflow-y: auto;
 
     @extend .z-depth-1;
   }
@@ -37,4 +34,12 @@
   .user i.action {
      font-size: 1.2rem;
    }
+
+  .user {
+    transition: $transition;
+  }
+
+  .user:hover {
+    background: $hover-color;
+  }
 }

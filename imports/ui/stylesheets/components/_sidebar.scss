@@ -1,4 +1,4 @@
-.sidebar, .mobile-nav {
+.sidebar {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -9,11 +9,14 @@
   overflow-x: auto;
   padding-bottom: 2.8rem;
   background: $bg-color;
+  top: $header-height;
+  left: 0;
 
   a, .sidebar__logout {
     padding: 0.8rem 1.2rem;
     transition: $transition;
     border-left: 4px solid $bg-sidebar;
+    -webkit-tap-highlight-color: transparent;
 
     i.fa {
       position: absolute;
@@ -70,20 +73,9 @@
     border-left: 4px solid transparent;
 
     input {
-      height: inherit;
+      height: 2rem;
       margin: 0;
       font-weight: 300;
     }
   }
-}
-
-.mobile-nav-overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(0,0,0,0.1);
-  cursor: pointer;
-  z-index: map-get($z-index, overlay);
 }
