@@ -31,14 +31,19 @@ export default class MainLayout extends TrackerReact(React.Component) {
     renderAlbumLinks() {
         return Albums.find({}).fetch().reverse().map((album) => {
             return (
-                <Link to={"/album/" + album._id} activeClassName="active" onClick={this.props.onClick}
-                      key={album._id}>{album.name}</Link>
+                <Link to={"/album/" + album._id}
+                      activeClassName="active"
+                      onClick={this.props.onClick}
+                      className="sidebar__link--secondary"
+                      key={album._id}>
+                    {album.name}
+                </Link>
             )
         });
     }
 
     renderLinks() {
-        const links = [{
+        let links = [{
             to: "/photos",
             i: "fa-picture-o",
             name: "Photos"
@@ -58,10 +63,25 @@ export default class MainLayout extends TrackerReact(React.Component) {
                 });
         }
 
+        if (!Meteor.userId()) {
+            links = [{
+                to: "login",
+                i: "fa-sign-in",
+                name: "Login"
+            }]
+        }
+
         return links.map((link, index) => {
             return (
-                <Link to={link.to} activeClassName="active" onClick={this.props.onClick} key={index}><i
-                    className={"fa " + link.i}/><span>{link.name}</span></Link>
+                <Link
+                    to={link.to}
+                    activeClassName="active"
+                    onClick={this.props.onClick}
+                    className="sidebar__link"
+                    key={index}>
+                    <i className={"sidebar__icon fa " + link.i}/>
+                    <span className="innerText">{link.name}</span>
+                </Link>
             );
         });
     }
@@ -70,6 +90,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
         event.preventDefault();
         Meteor.logout(() => {
             browserHistory.push("/");
+            this.props.onClick();
         });
     }
 
@@ -96,26 +117,39 @@ export default class MainLayout extends TrackerReact(React.Component) {
     }
 
     render() {
-        let albumInput = this.state.showAlbumInput &&
-            <form onSubmit={this.onSubmit_addAlbum} className="sidebar__albumInputWrapper">
-                <input type="text" ref={element => element && element.focus()} onChange={this.onChange_albumInput}/>
-            </form>;
+        let albumHeader, albumInput, albumLinks, logoutButton;
 
-        if (!this.state.subscription.albums.ready()) return null;
+        if (Meteor.userId()) {
+            if (!this.state.subscription.albums.ready()) return null;
+
+            albumHeader = (
+                <h4 className="sidebar__heading">
+                    Albums
+                    <i className="fa fa-plus sidebar__plusIcon" onClick={this.toggleAlbumInput}/>
+                </h4>
+            );
+
+            albumInput = this.state.showAlbumInput && (
+                    <form onSubmit={this.onSubmit_addAlbum} className="sidebar__newAlbum">
+                        <input type="text" ref={element => element && element.focus()}
+                               onChange={this.onChange_albumInput}/>
+                    </form>
+                );
+
+            albumLinks = this.renderAlbumLinks();
+
+            logoutButton =
+                <button className="sidebar__link sidebar__logout" onClick={this.onClick_logout}>Logout</button>;
+        }
 
         return (
             <nav className={"sidebar animate" + (this.props.className ? this.props.className : "" )} ref="sidebar">
                 <h4 className="sidebar__heading">Navigation</h4>
                 {this.renderLinks()}
-
-                <h4 className="sidebar__heading">
-                    Albums
-                    <i className="fa fa-plus sidebar__icon" onClick={this.toggleAlbumInput}/>
-                </h4>
+                {albumHeader}
                 {albumInput}
-                {this.renderAlbumLinks()}
-
-                <button className="sidebar__logout" onClick={this.onClick_logout}>Logout</button>
+                {albumLinks}
+                {logoutButton}
             </nav>
         );
     }

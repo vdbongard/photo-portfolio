@@ -33,7 +33,7 @@ export default class Password extends React.Component {
     render() {
         return (
             <div className="password content">
-                <div className="card hcenter">
+                <div className="card hcenter mt2">
                     <h1 className="card-title">Forgot Password?</h1>
                     <form id="forgotPasswordForm" onSubmit={this.onSubmit_forgotPasswordForm}>
                         <input type="email" ref="forgotPasswordEmail" className="input" placeholder="Email" required/>

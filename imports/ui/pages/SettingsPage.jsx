@@ -12,9 +12,9 @@ export default class SettingsPage extends TrackerReact(React.Component) {
             <div className="settings-page">
                 <h1>Settings</h1>
                 <div className="flex wrap">
+                    <Settings />
                     <SetPassword />
                     <SetEmail />
-                    <Settings />
                 </div>
             </div>
         );

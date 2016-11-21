@@ -33,7 +33,7 @@ export default class Login extends React.Component {
     render() {
         return (
             <div className="login content">
-                <div className="card hcenter">
+                <div className="card hcenter mt2">
                     <h1 className="card-title">Login</h1>
                     <form id="loginForm" onSubmit={this.onSubmit_loginForm}>
                         <input type="email" ref="loginEmail" className="input" placeholder="Email" required/>

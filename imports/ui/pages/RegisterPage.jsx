@@ -43,7 +43,7 @@ export default class Register extends React.Component {
     render() {
         return (
             <div className="register content">
-                <div className="card hcenter">
+                <div className="card hcenter mt2">
                     <h1 className="card-title">Register</h1>
                     <form id="registerForm" onSubmit={this.onSubmit_registerForm}>
                         <input type="email" ref="registerEmail" className="input" placeholder="Email" required/>
