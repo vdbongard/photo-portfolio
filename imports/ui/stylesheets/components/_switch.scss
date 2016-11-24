@@ -1,0 +1,49 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 14px;
+  margin: 4px 1px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  input {
+    display: none;
+  }
+
+  .switch__bar {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 8px;
+    pointer-events: none;
+    background-color: black;
+    opacity: 0.4;
+    transition: $transition;
+  }
+
+  input:checked + .switch__bar {
+    background-color: $primary-color;
+    opacity: 0.5;
+  }
+
+  .switch__button {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 0;
+    top: -3px;
+    background-color: color("grey", "lighten-5");
+    transition: $transition;
+    border-radius: 50%;
+    cursor: pointer;
+    will-change: transform;
+
+    @extend .z-depth-1;
+  }
+
+  input:checked ~ .switch__button {
+    transform: translateX(16px);
+    background-color: $primary-color;
+  }
+}

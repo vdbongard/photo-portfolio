@@ -222,7 +222,7 @@ export default class Album extends React.Component {
                                                     onChange={this.onChange} onDragLeave={this.onDragLeave}/>;
 
         const album__settingsButton = this.props.showSettings &&
-            <button className="album__settingsButton" onClick={this.showSettings}><i
+            <button className="btn album__settingsButton" onClick={this.showSettings}><i
                 className="fa fa-ellipsis-v"/></button>;
 
         const album__settings = this.state.showSettings &&
@@ -232,7 +232,8 @@ export default class Album extends React.Component {
 
         const album__title = this.props.albumTitleAsLink ?
             <Link to={"/album/" + this.props.albumId}>
-                <h2 className="album__title">{this.props.title}
+                <h2>
+                    <span className="album__title nowrap">{this.props.title}</span>
                     <span className="album__count">({images.length} photos)</span>
                 </h2>
             </Link> :
@@ -241,7 +242,7 @@ export default class Album extends React.Component {
                     value={this.props.title}
                     change={this.onChange_albumTitle}
                     validate={this.validate_albumTitle}
-                    className="album__title"
+                    className="album__title nowrap"
                     propName="text"
                     classEditing="editing"
                     classLoading="loading"/>

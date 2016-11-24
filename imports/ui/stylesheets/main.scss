@@ -17,29 +17,31 @@
 @import
   'base/base',
   'base/fonts',
-  'base/typography',
   'base/helpers';
 
 // 4. Layout-related sections
 @import
   'layout/header',
   'layout/footer',
+'layout/sidebar',
   'layout/dashboard';
 
 // 5. Components
 @import
   'components/navigation',
-  'components/sidebar',
   'components/dropzone',
   'components/album',
   'components/settings',
   'components/progressbar',
+'components/button',
+'components/card',
+'components/switch',
   'components/lightbox';
 
 // 6. Page-specific styles
-@import
-  'pages/users',
-  'pages/notfound';
+@import 'pages/usersPage',
+'pages/homePage',
+'pages/notfoundPage';
 
 // 7. Themes
 @import

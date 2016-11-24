@@ -1,6 +1,7 @@
 html {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  background: white;
 }
 
 *, *:before, *:after {
@@ -8,6 +9,8 @@ html {
 }
 
 body {
+  position: relative;
+  min-height: 100vh;
   background: $bg-color;
 }
 

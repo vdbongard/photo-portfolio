@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 import Navigation from "../components/Navigation";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "./Sidebar";
 
 export default class HeaderLayout extends React.Component {
 

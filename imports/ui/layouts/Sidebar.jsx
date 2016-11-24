@@ -34,7 +34,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
                 <Link to={"/album/" + album._id}
                       activeClassName="active"
                       onClick={this.props.onClick}
-                      className="sidebar__link--secondary"
+                      className="sidebar__link--secondary nowrap"
                       key={album._id}>
                     {album.name}
                 </Link>
@@ -90,7 +90,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
         event.preventDefault();
         Meteor.logout(() => {
             browserHistory.push("/");
-            this.props.onClick();
+            if (this.props.onClick) this.props.onClick();
         });
     }
 

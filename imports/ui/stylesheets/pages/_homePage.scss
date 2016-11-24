@@ -1,0 +1,11 @@
+.home {
+  .top-bg {
+    background: $primary-color;
+    height: 12rem;
+    margin-bottom: -8rem;
+
+    @include med-and-up {
+      height: 16rem;
+    }
+  }
+}

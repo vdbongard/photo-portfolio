@@ -17,15 +17,13 @@ import Reset from "../../ui/pages/ResetPasswordPage";
 import AdminAuthentication from "../../ui/components/AdminAuthentication";
 
 function requireAuth(nextState, replace) {
-    if (!Meteor.userId()) forwardNotAuthorized(nextState, replace);
-}
-
-function forwardNotAuthorized(nextState, replace) {
-    console.log("Not authorized!");
-    replace({
-        pathname: '/not-found',
-        state: {nextPathname: nextState.location.pathname}
-    });
+    if (!Meteor.userId()) {
+        console.log("Not authorized!");
+        replace({
+            pathname: '/not-found',
+            state: {nextPathname: nextState.location.pathname}
+        });
+    }
 }
 
 export const routes = () => (
@@ -40,10 +38,12 @@ export const routes = () => (
 
             <Route component={DashboardLayout} onEnter={requireAuth}>
                 <Route path="photos" component={Photos}/>
+
                 <Route component={AdminAuthentication}>
                     <Route path="users" component={Users}/>
                     <Route path="settings" component={Settings}/>
                 </Route>
+
                 <Route path="album/:albumId" component={AlbumPage}/>
             </Route>
             <Route path="*" component={NotFound}/>

@@ -1,0 +1,38 @@
+.card {
+  width: 100%;
+  background: white;
+  padding: 1rem;
+  border-radius: $border-radius;
+  margin-bottom: 1rem;
+
+  @extend .z-depth-1;
+
+  @include med-and-up {
+    width: 24rem;
+    max-width: 100%;
+    padding: 2rem;
+    margin-right: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+  }
+}
+
+.paper {
+  margin: 0 auto 1rem;
+  max-width: 62rem;
+  min-height: 30rem;
+  background: white;
+  padding: 2rem;
+  border-radius: $border-radius;
+
+  @extend .z-depth-1;
+
+  @include med-and-up {
+    min-height: 70rem;
+    padding: 4rem;
+  }
+}

@@ -1,14 +1,5 @@
-import {Meteor} from 'meteor/meteor';
-import {Mongo} from 'meteor/mongo';
-import {check} from 'meteor/check';
-
-const AppSettings = new Mongo.Collection('settings');
-
-if (Meteor.isServer) {
-    Meteor.publish('settings', function () {
-        return AppSettings.find({});
-    });
-}
+import {Meteor} from "meteor/meteor";
+import {Mongo} from "meteor/mongo";
 
 Meteor.methods({
     'settings.createDefault'() {
@@ -24,5 +15,13 @@ Meteor.methods({
         if(Roles.userIsInRole(this.userId, 'admin')) AppSettings.update(ar._id, {$set: {allowRegistration: !ar.allowRegistration}});
     }
 });
+
+if (Meteor.isServer) {
+    Meteor.publish('settings', function () {
+        return AppSettings.find({});
+    });
+}
+
+const AppSettings = new Mongo.Collection('settings');
 
 export default AppSettings;
