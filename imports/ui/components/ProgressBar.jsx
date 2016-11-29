@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default class ProgressBar extends React.Component {
     render() {
@@ -8,8 +8,8 @@ export default class ProgressBar extends React.Component {
 
         return (
             <div className="progressbar">
-                <div className="bar" style={{width: progress + '%'}}></div>
-                <span>{this.props.children}</span>
+                <div className="progressbar__bar" style={{width: progress + '%'}}></div>
+                <span className="progressbar__text">{this.props.children}</span>
             </div>
         );
     }

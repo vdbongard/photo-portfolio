@@ -4,6 +4,8 @@ import {check} from "meteor/check";
 import {Roles} from "meteor/alanning:roles";
 import Images from "./images";
 
+const Albums = new Mongo.Collection('albums');
+
 Meteor.methods({
     'album.create'(name) {
         check(name, String);
@@ -58,7 +60,5 @@ if (Meteor.isServer) {
         }
     })
 }
-
-const Albums = new Mongo.Collection('albums');
 
 export default Albums;

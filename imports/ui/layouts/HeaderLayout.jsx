@@ -33,10 +33,12 @@ export default class HeaderLayout extends React.Component {
                     <div className="header__left">
                         <i className="header__toggle fa fa-bars hide-on-med-and-up "
                            onClick={this.onClick_toggleMobileNav}/>
-                        <Link to="/" onClick={this.onClick_closeMobileNav}><img src="/logo.svg" className="header__logo"
-                                                                                alt="Logo"/></Link>
-                        <Link to="/" onClick={this.onClick_closeMobileNav}><h1 className="header__name">
-                            vdbongard.com</h1></Link>
+                        <Link to="/" onClick={this.onClick_closeMobileNav}>
+                            <img src="/logo.svg" className="header__logo" alt="Logo"/>
+                        </Link>
+                        <Link to="/" onClick={this.onClick_closeMobileNav}>
+                            <h1 className="header__name">vdbongard.com</h1>
+                        </Link>
                     </div>
 
                     <div className="header__right hide-on-small-only">

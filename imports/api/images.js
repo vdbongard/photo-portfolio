@@ -3,58 +3,6 @@ import {Roles} from "meteor/alanning:roles";
 import {FilesCollection} from "meteor/ostrio:files";
 import createThumbnails from "../startup/createThumbnails.js";
 
-Meteor.methods({
-    'images.remove'(id) {
-        if (Roles.userIsInRole(this.userId, 'admin')) {
-            if (Meteor.isServer) {
-                Images.remove({_id: id}, (error) => {
-                    error && console.log(error);
-                });
-                return true;
-            }
-        } else throw new Meteor.Error(403, "Not authorized to remove images");
-    },
-    'images.removeAlbum'(albumId) {
-        check(albumId, String);
-        if (Roles.userIsInRole(this.userId, 'admin')) {
-            Images.update({
-                'meta.album': albumId
-            }, {
-                $set: {
-                    'meta.album': ''
-                }
-            }, (error) => {
-                error && console.log(error);
-            });
-            return true;
-        } else throw new Meteor.Error(403, "Not authorized to remove album from image");
-    }
-});
-
-if (Meteor.isServer) {
-    Meteor.publish('images', function () {
-        if (Roles.userIsInRole(this.userId, ['admin', 'normal'])) {
-            return Images.find().cursor;
-        }
-    });
-}
-
-let knox, bound, client, Request, cfdomain = {};
-
-if (Meteor.isServer) {
-    // Fix CloudFront certificate issue
-    // Read: https://github.com/chilts/awssum/issues/164
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-
-    knox = Npm.require('knox');
-    Request = Npm.require('request');
-    bound = Meteor.bindEnvironment(function (callback) {
-        return callback();
-    });
-    cfdomain = 'https://dm26im48b5fvp.cloudfront.net'; // <-- Change to your Cloud Front Domain
-    client = knox.createClient(Meteor.settings.aws.s3);
-}
-
 const Images = new FilesCollection({
     debug: false, // Change to `true` for debugging
     throttle: false,
@@ -152,6 +100,60 @@ const Images = new FilesCollection({
         }
     }
 });
+
+Meteor.methods({
+    'images.remove'(id) {
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            if (Meteor.isServer) {
+                Images.remove({_id: id}, (error) => {
+                    error && console.log(error);
+                });
+                return true;
+            }
+        } else throw new Meteor.Error(403, "Not authorized to remove images");
+    },
+    'images.removeAlbum'(albumId) {
+        check(albumId, String);
+        if (Roles.userIsInRole(this.userId, 'admin')) {
+            Images.update({
+                'meta.album': albumId
+            }, {
+                $set: {
+                    'meta.album': ''
+                }
+            }, {
+                multi: true
+            }, (error) => {
+                error && console.log(error);
+            });
+            return true;
+        } else throw new Meteor.Error(403, "Not authorized to remove album from image");
+    }
+});
+
+if (Meteor.isServer) {
+    Meteor.publish('images', function () {
+        if (Roles.userIsInRole(this.userId, ['admin', 'normal'])) {
+            return Images.find().cursor;
+        }
+    });
+}
+
+let knox, bound, client, Request, cfdomain = {};
+
+if (Meteor.isServer) {
+    // Fix CloudFront certificate issue
+    // Read: https://github.com/chilts/awssum/issues/164
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
+    knox = Npm.require('knox');
+    Request = Npm.require('request');
+    bound = Meteor.bindEnvironment(function (callback) {
+        return callback();
+    });
+    cfdomain = 'https://dm26im48b5fvp.cloudfront.net'; // <-- Change to your Cloud Front Domain
+    client = knox.createClient(Meteor.settings.aws.s3);
+}
 
 if (Meteor.isServer) {
     // Intercept File's collection remove method

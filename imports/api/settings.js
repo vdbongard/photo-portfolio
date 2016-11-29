@@ -1,6 +1,8 @@
 import {Meteor} from "meteor/meteor";
 import {Mongo} from "meteor/mongo";
 
+const AppSettings = new Mongo.Collection('settings');
+
 Meteor.methods({
     'settings.createDefault'() {
         if (AppSettings.findOne({}) == null) {
@@ -21,7 +23,5 @@ if (Meteor.isServer) {
         return AppSettings.find({});
     });
 }
-
-const AppSettings = new Mongo.Collection('settings');
 
 export default AppSettings;
