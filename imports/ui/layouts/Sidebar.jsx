@@ -4,7 +4,12 @@ import TrackerReact from "meteor/ultimatejs:tracker-react";
 import {Roles} from "meteor/alanning:roles";
 import Albums from "../../api/albums";
 
-export default class MainLayout extends TrackerReact(React.Component) {
+export default class Sidebar extends TrackerReact(React.Component) {
+
+    static propTypes = {
+        onClick: React.PropTypes.func,
+        className: React.PropTypes.string
+    };
 
     constructor(props) {
         super(props);
@@ -16,19 +21,13 @@ export default class MainLayout extends TrackerReact(React.Component) {
             showAlbumInput: false,
             albumInput: ""
         };
-
-        this.renderAlbumLinks = this.renderAlbumLinks.bind(this);
-        this.onClick_logout = this.onClick_logout.bind(this);
-        this.toggleAlbumInput = this.toggleAlbumInput.bind(this);
-        this.onSubmit_addAlbum = this.onSubmit_addAlbum.bind(this);
-        this.onChange_albumInput = this.onChange_albumInput.bind(this);
     }
 
     componentWillUnmount() {
         this.state.subscription.albums.stop();
     }
 
-    renderAlbumLinks() {
+    renderAlbumLinks = () => {
         return Albums.find({}).fetch().reverse().map((album) => {
             return (
                 <Link to={"/album/" + album._id}
@@ -40,9 +39,9 @@ export default class MainLayout extends TrackerReact(React.Component) {
                 </Link>
             )
         });
-    }
+    };
 
-    renderLinks() {
+    renderLinks = () => {
         let links = [{
             to: "/photos",
             i: "fa-picture-o",
@@ -84,22 +83,19 @@ export default class MainLayout extends TrackerReact(React.Component) {
                 </Link>
             );
         });
-    }
+    };
 
-    onClick_logout(event) {
+    onClick_logout = (event) => {
         event.preventDefault();
         Meteor.logout(() => {
             browserHistory.push("/");
             if (this.props.onClick) this.props.onClick();
         });
-    }
+    };
 
-    toggleAlbumInput() {
-        let state = !this.state.showAlbumInput;
-        this.setState({showAlbumInput: state});
-    }
+    toggleAlbumInput = () => this.setState({showAlbumInput: !this.state.showAlbumInput});
 
-    onSubmit_addAlbum(event) {
+    onSubmit_addAlbum = (event) => {
         event.preventDefault();
         const albumName = this.state.albumInput;
         if (albumName !== '') {
@@ -110,11 +106,9 @@ export default class MainLayout extends TrackerReact(React.Component) {
             });
             this.toggleAlbumInput();
         }
-    }
+    };
 
-    onChange_albumInput(event) {
-        this.setState({albumInput: event.target.value.trim()});
-    }
+    onChange_albumInput = (event) => this.setState({albumInput: event.target.value.trim()});
 
     render() {
         let albumHeader, albumInput, albumLinks, logoutButton;

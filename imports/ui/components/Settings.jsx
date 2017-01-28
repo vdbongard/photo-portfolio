@@ -13,8 +13,6 @@ export default class Settings extends TrackerReact(React.Component) {
                 settings: Meteor.subscribe('settings')
             }
         };
-
-        this.allowRegistration = this.allowRegistration.bind(this);
     }
 
     componentWillUnmount() {

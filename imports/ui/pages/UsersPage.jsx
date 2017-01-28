@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React from "react";
 import TrackerReact from "meteor/ultimatejs:tracker-react";
 import User from "../components/User";
 
-export default class Users extends TrackerReact(Component) {
+export default class Users extends TrackerReact(React.Component) {
 
     constructor(props) {
         super(props);

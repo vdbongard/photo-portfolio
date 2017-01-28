@@ -4,31 +4,24 @@ import {validateEmail} from "../../startup/helper";
 
 export default class Password extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.onSubmit_forgotPasswordForm = this.onSubmit_forgotPasswordForm.bind(this);
-    }
-
-    onSubmit_forgotPasswordForm(event) {
+    onSubmit_forgotPasswordForm = (event) => {
         event.preventDefault();
-        const email = this.refs.forgotPasswordEmail.value.trim();
+        const email = this.forgotPasswordEmail.value.trim();
         if (email === '') console.log("Email must not be empty!");
         else if (!validateEmail(email)) console.log("This is not a valid email address!");
         else {
-            this.refs.submitButton.disabled = true;
+            this.submitButton.disabled = true;
             Accounts.forgotPassword({
                 email
             }, (error) => {
                 if (error) {
                     console.log(error);
-                    this.refs.submitButton.disabled = false;
+                    this.submitButton.disabled = false;
                 }
                 else console.log("Reset password email has been sent!");
             });
         }
-
-    }
+    };
 
     render() {
         return (
@@ -36,8 +29,10 @@ export default class Password extends React.Component {
                 <div className="card hcenter mt2">
                     <h1 className="card-title">Forgot Password?</h1>
                     <form id="forgotPasswordForm" onSubmit={this.onSubmit_forgotPasswordForm}>
-                        <input type="email" ref="forgotPasswordEmail" className="input" placeholder="Email" required/>
-                        <input type="submit" ref="submitButton" value="Send Password" className="btn-large"/>
+                        <input type="email" ref={el => this.forgotPasswordEmail = el} className="input"
+                               placeholder="Email" required/>
+                        <input type="submit" ref={el => this.submitButton = el} value="Send Password"
+                               className="btn-large"/>
                     </form>
                 </div>
 

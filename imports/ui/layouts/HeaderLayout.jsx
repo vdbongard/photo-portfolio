@@ -11,19 +11,16 @@ export default class HeaderLayout extends React.Component {
         this.state = {
             mobileNavHidden: true
         };
-
-        this.onClick_toggleMobileNav = this.onClick_toggleMobileNav.bind(this);
-        this.onClick_closeMobileNav = this.onClick_closeMobileNav.bind(this);
     }
 
-    onClick_toggleMobileNav() {
+    onClick_toggleMobileNav = () => {
         this.setState({mobileNavHidden: !this.state.mobileNavHidden});
         document.body.classList.toggle('noscroll-small');
-    }
+    };
 
-    onClick_closeMobileNav() {
+    onClick_closeMobileNav = () => {
         if (!this.state.mobileNavHidden) this.onClick_toggleMobileNav();
-    }
+    };
 
     render() {
         return (

@@ -16,10 +16,6 @@ export default class Photos extends TrackerReact(React.Component) {
                 albums: Meteor.subscribe('albums')
             }
         };
-
-        this.getAlbumImages = this.getAlbumImages.bind(this);
-        this.removeImage = this.removeImage.bind(this);
-        this.getAlbums = this.getAlbums.bind(this);
     }
 
     componentWillUnmount() {

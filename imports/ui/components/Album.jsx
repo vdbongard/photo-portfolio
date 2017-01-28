@@ -6,6 +6,15 @@ import Images from "../../api/images";
 
 export default class Album extends React.Component {
 
+    static propTypes = {
+        title: React.PropTypes.string,
+        albumId: React.PropTypes.string,
+        images: React.PropTypes.arrayOf(React.PropTypes.object),
+        disableRemove: React.PropTypes.bool,
+        showSettings: React.PropTypes.bool,
+        albumTitleAsLink: React.PropTypes.bool
+    };
+
     constructor(props) {
         super(props);
 
@@ -19,21 +28,6 @@ export default class Album extends React.Component {
             showSettings: false,
             albumTitle: this.props.title || ""
         };
-
-        this.removeImage = this.removeImage.bind(this);
-        this.openImage = this.openImage.bind(this);
-        this.closeImage = this.closeImage.bind(this);
-        this.onLoad = this.onLoad.bind(this);
-        this.onError = this.onError.bind(this);
-        this.onDragOver = this.onDragOver.bind(this);
-        this.onDragLeave = this.onDragLeave.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.renderImages = this.renderImages.bind(this);
-        this.renderLightbox = this.renderLightbox.bind(this);
-        this.showSettings = this.showSettings.bind(this);
-        this.removeAlbum = this.removeAlbum.bind(this);
-        this.clickHandler = this.clickHandler.bind(this);
-        this.onChange_albumTitle = this.onChange_albumTitle.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,58 +40,56 @@ export default class Album extends React.Component {
                 error && console.log(error);
             });
         }
-    }
+    };
 
-    openImage(index) {
+    openImage = (index) => {
         this.setState({
             isOpen: true,
             index: index
         });
         document.body.classList.add('noscroll');
-    }
+    };
 
-    closeImage() {
+    closeImage = () => {
         this.setState({
             isOpen: false,
             loading: true,
             error: false
         });
         document.body.classList.remove('noscroll');
-    }
+    };
 
-    onLoad() {
+    onLoad = () => {
         this.setState({loading: false});
-    }
+    };
 
-    onError() {
+    onError = () => {
         this.setState({loading: false, error: true});
-    }
+    };
 
-    onDragOver() {
+    onDragOver = () => {
         if (!this.state.hover) {
             this.setState({hover: true, showSettings: false});
         }
-    }
+    };
 
-    onDragLeave() {
+    onDragLeave = () => {
         if (this.state.hover) {
             this.setState({hover: false});
         }
-    }
+    };
 
-    onChange(e) {
+    onChange = (e) => {
         e.preventDefault();
 
-        let self = this;
-
         if (e.currentTarget.files && e.currentTarget.files[0]) {
-            _.each(e.currentTarget.files, function (file) {
+            _.each(e.currentTarget.files, (file) => {
                 let upload = Images.insert({
                     file: file,
                     streams: 'dynamic',
                     chunkSize: 'dynamic',
                     meta: {
-                        album: self.props.albumId
+                        album: this.props.albumId
                     }
                 }, false);
 
@@ -117,45 +109,43 @@ export default class Album extends React.Component {
             });
         }
         this.onDragLeave();
-    }
+    };
 
-    renderImages() {
-        return this.state.images.map((image, index) => {
-            let awsUpload = image;
-            let awsProgress = [];
-            let progressbar;
+    renderImages = () => this.state.images.map((image, index) => {
+        let awsUpload = image;
+        let awsProgress = [];
+        let progressbar;
 
-            if (awsUpload && awsUpload.versions) {
-                awsProgress[0] = awsUpload.versions.thumbnail40 && awsUpload.versions.thumbnail40.meta && awsUpload.versions.thumbnail40.meta.progress && awsUpload.versions.thumbnail40.meta.progress || 0;
-                awsProgress[1] = awsUpload.versions.preview && awsUpload.versions.preview.meta && awsUpload.versions.preview.meta.progress && awsUpload.versions.preview.meta.progress || 0;
-                awsProgress[2] = awsUpload.versions.original && awsUpload.versions.original.meta && awsUpload.versions.original.meta.progress && awsUpload.versions.original.meta.progress || 0;
-            }
+        if (awsUpload && awsUpload.versions) {
+            awsProgress[0] = awsUpload.versions.thumbnail40 && awsUpload.versions.thumbnail40.meta && awsUpload.versions.thumbnail40.meta.progress && awsUpload.versions.thumbnail40.meta.progress || 0;
+            awsProgress[1] = awsUpload.versions.preview && awsUpload.versions.preview.meta && awsUpload.versions.preview.meta.progress && awsUpload.versions.preview.meta.progress || 0;
+            awsProgress[2] = awsUpload.versions.original && awsUpload.versions.original.meta && awsUpload.versions.original.meta.progress && awsUpload.versions.original.meta.progress || 0;
+        }
 
-            let total = awsProgress[0].total + awsProgress[1].total + awsProgress[2].total;
-            let progress = Math.round(((awsProgress[0].written + awsProgress[1].written + awsProgress[2].written) / total) * 100);
+        let total = awsProgress[0].total + awsProgress[1].total + awsProgress[2].total;
+        let progress = Math.round(((awsProgress[0].written + awsProgress[1].written + awsProgress[2].written) / total) * 100);
 
-            if (awsProgress[0].percent + awsProgress[1].percent + awsProgress[2].percent < 300) {
-                progressbar = <ProgressBar progress={progress}>{progress}%</ProgressBar>;
-            }
+        if (awsProgress[0].percent + awsProgress[1].percent + awsProgress[2].percent < 300) {
+            progressbar = <ProgressBar progress={progress}>{progress}%</ProgressBar>;
+        }
 
-            return (
-                <div className="album__picture" key={image._id}>
-                    <div className="album__picture__inner flex center">
-                        {image.versions.original.meta ?
-                            <img src={image.versions.preview.meta.pipeFrom} alt=""
-                                 onClick={() => this.openImage(index)}/> : "uploading..."}
+        return (
+            <div className="album__picture" key={image._id}>
+                <div className="album__picture__inner flex center">
+                    {image.versions.original.meta ?
+                        <img src={image.versions.preview.meta.pipeFrom} alt=""
+                             onClick={() => this.openImage(index)}/> : "uploading..."}
 
-                        {!this.props.disableRemove &&
-                        <i className="fa fa-times delete" onClick={() => this.removeImage(image._id)}/>}
+                    {!this.props.disableRemove &&
+                    <i className="fa fa-times delete" onClick={() => this.removeImage(image._id)}/>}
 
-                        {progressbar}
-                    </div>
+                    {progressbar}
                 </div>
-            )
-        })
-    }
+            </div>
+        )
+    });
 
-    renderLightbox() {
+    renderLightbox = () => {
         const images = this.state.images;
 
         let lightbox__innerStyle = {};
@@ -177,21 +167,21 @@ export default class Album extends React.Component {
                         className={(this.state.loading || this.state.error) ? "hidden" : ""}/>
                 </div>
             </div>
-    }
+    };
 
-    showSettings() {
+    showSettings = () => {
         this.setState({showSettings: true});
         document.addEventListener('click', this.clickHandler);
-    }
+    };
 
-    clickHandler(event) {
+    clickHandler = (event) => {
         if (this.refs.album__settings && !this.refs.album__settings.contains(event.target)) {
             this.setState({showSettings: false});
             document.removeEventListener('click', this.clickHandler);
         } else if (!this.refs.album__settings) document.removeEventListener('click', this.clickHandler);
-    }
+    };
 
-    removeAlbum() {
+    removeAlbum = () => {
         if (this.props.albumId) {
             Meteor.call('album.remove', this.props.albumId, error => {
                 error ? console.log(error) : console.log("Album successfully removed!");
@@ -199,9 +189,9 @@ export default class Album extends React.Component {
             this.setState({showSettings: false});
             browserHistory.push("/photos");
         }
-    }
+    };
 
-    onChange_albumTitle(data) {
+    onChange_albumTitle = (data) => {
         console.log(data);
         if (this.props.albumId) {
             Meteor.call('album.rename', this.props.albumId, data.text, error => {
@@ -209,11 +199,11 @@ export default class Album extends React.Component {
             });
         }
         return true;
-    }
+    };
 
     validate_albumTitle(text) {
         return (text.length > 0 && text.length < 33);
-    }
+    };
 
     render() {
         let images = this.state.images;

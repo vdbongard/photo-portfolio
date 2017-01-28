@@ -1,9 +1,7 @@
-import React from 'react';
-import TrackerReact from 'meteor/ultimatejs:tracker-react';
-
-import ProgressBar from '../components/ProgressBar';
-
-import Images from '../../api/images';
+import React from "react";
+import TrackerReact from "meteor/ultimatejs:tracker-react";
+import ProgressBar from "../components/ProgressBar";
+import Images from "../../api/images";
 
 export default class Dropzone extends TrackerReact(React.Component) {
 
@@ -15,21 +13,15 @@ export default class Dropzone extends TrackerReact(React.Component) {
             currentUpload: false,
             file: false
         };
-
-        this.onChange = this.onChange.bind(this);
-        this.onDragOver = this.onDragOver.bind(this);
-        this.onDragLeave = this.onDragLeave.bind(this);
     }
 
-    onChange(e) {
+    onChange = (e) => {
         e.preventDefault();
-
-        let self = this;
 
         if (e.currentTarget.files && e.currentTarget.files[0]) {
             // We upload only one file, in case
             // multiple files were selected
-            var upload = Images.insert({
+            let upload = Images.insert({
                 file: e.currentTarget.files[0],
                 streams: 'dynamic',
                 chunkSize: 'dynamic',
@@ -38,37 +30,37 @@ export default class Dropzone extends TrackerReact(React.Component) {
                 }
             }, false);
 
-            upload.on('start', function () {
-                self.setState({currentUpload: this});
+            upload.on('start', () => {
+                this.setState({currentUpload: this});
             });
 
-            upload.on('end', function (error, fileObj) {
+            upload.on('end', (error, fileObj) => {
                 if (error) {
                     console.log(error);
                 } else {
                     console.log('File "' + fileObj.name + '" successfully uploaded');
-                    self.setState({file: fileObj});
+                    this.setState({file: fileObj});
                 }
-                // Meteor.setTimeout(()=>self.setState({currentUpload: false}), 3000);
+                // Meteor.setTimeout(()=>this.setState({currentUpload: false}), 3000);
             });
 
             upload.start();
         }
-    }
+    };
 
-    onDragOver() {
+    onDragOver = () => {
         if (!this.state.hover) {
             this.setState({hover: true});
             console.log("onDragOver");
         }
-    }
+    };
 
-    onDragLeave() {
+    onDragLeave = () => {
         if (this.state.hover) {
             this.setState({hover: false});
             console.log("onDragLeave");
         }
-    }
+    };
 
     render() {
         let dropzone__inner = "dropzone__inner " + (this.state.hover ? "dragover" : "");

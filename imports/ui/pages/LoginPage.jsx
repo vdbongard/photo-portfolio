@@ -4,31 +4,23 @@ import {Meteor} from "meteor/meteor";
 
 export default class Login extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.onSubmit_loginForm = this.onSubmit_loginForm.bind(this);
-    }
-
-    onSubmit_loginForm(event) {
+    onSubmit_loginForm = (event) => {
         event.preventDefault();
-        const email = this.refs.loginEmail.value.trim();
-        const password = this.refs.loginPassword.value;
+
+        const email = this.loginEmail.value.trim();
+        const password = this.loginPassword.value;
+
         if (email !== '' && password !== '') {
-            this.refs.submitButton.disabled = true;
-            Meteor.loginWithPassword(email, password, function (error) {
+            this.submitButton.disabled = true;
+            Meteor.loginWithPassword(email, password, (error) => {
                 if (error) {
                     console.log(error);
-                    this.refs.submitButton.disabled = false;
+                    this.submitButton.disabled = false;
                 }
-                else {
-                    if (Meteor.userId()) {
-                        browserHistory.push("/photos");
-                    }
-                }
+                else if (Meteor.userId()) browserHistory.push("/photos");
             });
         }
-    }
+    };
 
     render() {
         return (
@@ -36,9 +28,11 @@ export default class Login extends React.Component {
                 <div className="card hcenter mt2">
                     <h1 className="card-title">Login</h1>
                     <form id="loginForm" onSubmit={this.onSubmit_loginForm}>
-                        <input type="email" ref="loginEmail" className="input" placeholder="Email" required/>
-                        <input type="password" ref="loginPassword" className="input" placeholder="Password" required/>
-                        <input type="submit" ref="submitButton" value="Login" className="btn-large"/>
+                        <input type="email" ref={el => this.loginEmail = el} className="input" placeholder="Email"
+                               required/>
+                        <input type="password" ref={el => this.loginPassword = el} className="input"
+                               placeholder="Password" required/>
+                        <input type="submit" ref={el => this.submitButton = el} value="Login" className="btn-large"/>
                         <div className="flex jc-sa">
                             <Link to="/register">Register</Link>
                             <Link to="/password">Forgot password?</Link>

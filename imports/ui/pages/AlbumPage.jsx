@@ -14,11 +14,6 @@ export default class AlbumPage extends TrackerReact(React.Component) {
                 albumWithImages: Meteor.subscribe('albumWithImages', this.props.params.albumId)
             }
         };
-
-        this.getImages = this.getImages.bind(this);
-        this.removeImage = this.removeImage.bind(this);
-        this.getAlbum = this.getAlbum.bind(this);
-        this.onChange = this.onChange.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,11 +41,11 @@ export default class AlbumPage extends TrackerReact(React.Component) {
         });
     }
 
-    getAlbum() {
+    getAlbum = () => {
         return Albums.findOne({_id: this.props.params.albumId});
-    }
+    };
 
-    onChange(e) {
+    onChange = (e) => {
         e.preventDefault();
 
         let self = this;
@@ -81,7 +76,7 @@ export default class AlbumPage extends TrackerReact(React.Component) {
                 upload.start();
             });
         }
-    }
+    };
 
     render() {
         if (!this.state.subscription.albumWithImages.ready()) return null;
