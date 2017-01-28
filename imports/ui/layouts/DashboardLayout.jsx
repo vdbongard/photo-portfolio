@@ -1,18 +1,12 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 
-export default class DashboardLayout extends React.Component {
+const DashboardLayout = ({children}) =>
+    <div id="dashboard-layout">
+        <Sidebar className="hide-on-small-only"/>
+        <div className="content">
+            {children}
+        </div>
+    </div>
 
-    render() {
-        return (
-            <div id="dashboard-layout">
-                <div className="hide-on-small-only">
-                    <Sidebar />
-                </div>
-                <div className="content">
-                    {this.props.children}
-                </div>
-            </div>
-        );
-    }
-}
+export default DashboardLayout;

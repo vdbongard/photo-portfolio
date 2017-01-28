@@ -16,37 +16,41 @@ import Verification from "../../ui/pages/VerificationPage.jsx";
 import Reset from "../../ui/pages/ResetPasswordPage";
 import AdminAuthentication from "../../ui/components/AdminAuthentication";
 
-function requireAuth(nextState, replace) {
-    if (!Meteor.userId()) {
-        console.log("Not authorized!");
-        replace({
-            pathname: '/not-found',
-            state: {nextPathname: nextState.location.pathname}
-        });
-    }
-}
+const Routes = () => {
+    const requireAuth = (nextState, replace) => {
+        if (!Meteor.userId()) {
+            console.log("Not authorized!");
+            replace({
+                pathname: '/not-found',
+                state: {nextPathname: nextState.location.pathname}
+            });
+        }
+    };
 
-export const routes = () => (
-    <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
-        <Route path="/" component={HeaderLayout}>
-            <IndexRoute component={Home}/>
-            <Route path="login" component={Login}/>
-            <Route path="register" component={Register}/>
-            <Route path="password" component={Password}/>
-            <Route path="verification" component={Verification}/>
-            <Route path="reset" component={Reset}/>
+    return (
+        <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
+            <Route path="/" component={HeaderLayout}>
+                <IndexRoute component={Home}/>
+                <Route path="login" component={Login}/>
+                <Route path="register" component={Register}/>
+                <Route path="password" component={Password}/>
+                <Route path="verification" component={Verification}/>
+                <Route path="reset" component={Reset}/>
 
-            <Route component={DashboardLayout} onEnter={requireAuth}>
-                <Route path="photos" component={Photos}/>
+                <Route component={DashboardLayout} onEnter={requireAuth}>
+                    <Route path="photos" component={Photos}/>
 
-                <Route component={AdminAuthentication}>
-                    <Route path="users" component={Users}/>
-                    <Route path="settings" component={Settings}/>
+                    <Route component={AdminAuthentication}>
+                        <Route path="users" component={Users}/>
+                        <Route path="settings" component={Settings}/>
+                    </Route>
+
+                    <Route path="album/:albumId" component={AlbumPage}/>
                 </Route>
-
-                <Route path="album/:albumId" component={AlbumPage}/>
+                <Route path="*" component={NotFound}/>
             </Route>
-            <Route path="*" component={NotFound}/>
-        </Route>
-    </Router>
-);
+        </Router>
+    );
+};
+
+export default Routes;

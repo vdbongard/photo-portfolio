@@ -52,7 +52,7 @@ export default class HeaderLayout extends React.Component {
                 </main>
 
                 <div className="hide-on-med-and-up" ref="mobileNav">
-                    <Sidebar className={this.state.mobileNavHidden && " ttx-100p"}
+                    <Sidebar className={this.state.mobileNavHidden && "ttx-100p"}
                              onClick={this.onClick_toggleMobileNav}/>
                     <div className={"overlay animate" + (this.state.mobileNavHidden ? " hidden" : "")}
                          onClick={this.onClick_toggleMobileNav}></div>

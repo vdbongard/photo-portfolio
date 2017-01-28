@@ -143,7 +143,7 @@ export default class MainLayout extends TrackerReact(React.Component) {
         }
 
         return (
-            <nav className={"sidebar animate" + (this.props.className ? this.props.className : "" )} ref="sidebar">
+            <nav className={"sidebar animate " + (this.props.className ? this.props.className : "" )} ref="sidebar">
                 <h4 className="sidebar__heading">Navigation</h4>
                 {this.renderLinks()}
                 {albumHeader}
